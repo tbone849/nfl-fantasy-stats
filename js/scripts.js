@@ -238,7 +238,7 @@ $( document ).ready(function() {
     }
 
     // populate week selector
-    for(x = 1; x < 17; x++){
+    for(x = 1; x < 18; x++){
     	$('#week').append('<option value="' + x + '">' + x + '</option>');
     }
 });
