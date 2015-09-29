@@ -225,7 +225,13 @@ $( document ).ready(function() {
 		txtcolor: "#FFB612"
     });
 
+    // populate team selector
     for(t in teams){
     	$('#teamNames').append('<option value="' + teams[t].abbr + '">' + teams[t].abbr + '</option>');
+    }
+
+    // populate week selector
+    for(x = 1; x < 17; x++){
+    	$('#week').append('<option value="' + x + '">' + x + '</option>');
     }
 });

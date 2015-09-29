@@ -67,3 +67,7 @@ body {
 	font-size: 3em;
 	font-weight: normal;
 }
+
+.options select {
+	margin-right: 1.5em;
+}
