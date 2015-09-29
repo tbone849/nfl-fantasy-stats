@@ -1,10 +1,10 @@
-/* Player Name */
+/* Player Details */
 @font-face {
   font-family: "Aero Matics Light";
   src: url("fonts/Aero Matics Light.ttf") format("truetype");
 }
 
-/* Player Details */
+/* Player Name */
 @font-face {
   font-family: "Aero Matics Regular";
   src: url("fonts/Aero Matics Regular.ttf") format("truetype");
@@ -34,6 +34,7 @@ header {
 
 body {
 	text-align: center;
+	font-family: "Aero Matics Regular", arial;
 }
 
 .team-container {

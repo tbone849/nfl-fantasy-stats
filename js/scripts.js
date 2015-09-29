@@ -2,6 +2,13 @@ $( document ).ready(function() {
     var teams = [];
     	
     teams.push({
+    	abbr: "NFL",
+    	full: "All NFL Teams",
+    	bgcolor: "#00338D",
+    	txtcolor: "#FFFFFF"
+    })
+
+    teams.push({
 		abbr: "ARI",
 		full: "Arizona Cardinals",
 		bgcolor: "#97233F",
