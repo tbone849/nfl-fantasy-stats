@@ -32,6 +32,10 @@ header {
 	border-bottom: solid 6px black;
 }
 
+body {
+	text-align: center;
+}
+
 .team-container {
 	width: 35rem;
 	margin: 0 auto;
@@ -50,10 +54,16 @@ header {
 
 .team-name {
 	width: 60%;
+	text-align: left;
 }
 
 .team {
 	font-family: "bombard", arial;
 	font-size: 4em;
-	text-align: center;
+}
+
+.title {
+	font-family: "Varsity Regular", arial;
+	font-size: 3em;
+	font-weight: normal;
 }
