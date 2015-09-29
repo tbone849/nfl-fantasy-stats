@@ -1,0 +1,24 @@
+/* Player Name */
+@font-face {
+  font-family: "Aero Matics Light";
+  src: url("fonts/Aero Matics Light.ttf") format("truetype");
+}
+
+/* Player Details */
+@font-face {
+  font-family: "Aero Matics Regular";
+  src: url("fonts/Aero Matics Regular.ttf") format("truetype");
+}
+
+/* Team Name */
+@font-face {
+  font-family: "bombard";
+  src: url("fonts/bombard.ttf") format("truetype");
+}
+
+/* Page Title */
+@font-face {
+  font-family: "Varsity Regular";
+  src: url("fonts/varsity_regular.ttf") format("truetype");
+}
+
