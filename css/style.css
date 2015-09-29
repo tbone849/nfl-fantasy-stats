@@ -22,3 +22,38 @@
   src: url("fonts/varsity_regular.ttf") format("truetype");
 }
 
+header {
+	margin: 0;
+	padding: 1em;
+	background-color: #00338D;
+	background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,.1) 5px, rgba(255,255,255,.1) 10px);
+	color: #ffffff;
+	border-top: solid 6px black;
+	border-bottom: solid 6px black;
+}
+
+.team-container {
+	width: 35rem;
+	margin: 0 auto;
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+}
+
+.logo, .team-name {
+	display: inline-block;
+}
+
+.logo {
+	width: 35%;
+}
+
+.team-name {
+	width: 60%;
+}
+
+.team {
+	font-family: "bombard", arial;
+	font-size: 4em;
+	text-align: center;
+}
