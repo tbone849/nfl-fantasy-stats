@@ -251,7 +251,14 @@ $( document ).ready(function() {
 function setHeaderStyles(teams){
 	var team = $('#teams').find('option:selected').val();
 	var teamToLower = team.toLowerCase();
-	$('.team-logo').attr("src", "http://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/" + teamToLower + ".png?w=150&h=150&transparent=true" );
+	// if "NFL" is selected, get picture from this url
+	if(teamToLower === "nfl"){
+		$('.team-logo').attr("src", "http://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/" + teamToLower + ".png?w=150&h=150&transparent=true" );		
+	} 
+	else{
+		$('.team-logo').attr("src", "http://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/" + teamToLower + ".png?w=150&h=150&transparent=true" );
+	}
+	
 	for(t in teams){
 		if(teams[t].abbr === team){
 			$('.team').text(teams[t].full).css("color", teams[t].txtcolor);
