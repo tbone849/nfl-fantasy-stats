@@ -234,11 +234,29 @@ $( document ).ready(function() {
 
     // populate team selector
     for(t in teams){
-    	$('#teamNames').append('<option value="' + teams[t].abbr + '">' + teams[t].abbr + '</option>');
+    	$('#teams').append('<option class="teamAbbr" value="' + teams[t].abbr + '">' + teams[t].abbr + '</option>');
     }
 
     // populate week selector
     for(x = 1; x < 18; x++){
     	$('#week').append('<option value="' + x + '">' + x + '</option>');
     }
+
+    $('.options').submit(function(event){
+    	event.preventDefault();
+    	setHeaderStyles(teams);
+    });
 });
+
+function setHeaderStyles(teams){
+	var team = $('#teams').find('option:selected').val();
+	var teamToLower = team.toLowerCase();
+	$('.team-logo').attr("src", "http://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/" + teamToLower + ".png?w=150&h=150&transparent=true" );
+	for(t in teams){
+		if(teams[t].abbr === team){
+			$('.team').text(teams[t].full).css("color", teams[t].txtcolor);
+			$('header').css("background-color", teams[t].bgcolor);
+		}
+	}
+	
+}
