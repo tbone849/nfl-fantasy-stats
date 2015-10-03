@@ -242,17 +242,25 @@ $( document ).ready(function() {
     	$('#week').append('<option value="' + x + '">' + x + '</option>');
     }
 
+    // handle team and week form submit 
     $('.options').submit(function(event){
     	event.preventDefault();
-    	setHeaderStyles(teams);
+    	$('.results').html('');
+    	// get value of team selector
+    	var team = $('#teams').find('option:selected').val();
+		var teamToLower = team.toLowerCase();
+		// get value of week selector
+		var week = $('#week').find('option:selected').val();
+    	setNewHeaderStyles(teams, team, teamToLower);
+    	getPlayerStats(team, week);
     });
 });
 
-function setHeaderStyles(teams){
+function setNewHeaderStyles(teams){
 	var team = $('#teams').find('option:selected').val();
 	var teamToLower = team.toLowerCase();
-	// if "NFL" is selected, get picture from this url
-	if(teamToLower === "nfl"){
+	
+	if(teamToLower === "nfl"){ // if "NFL" is selected, get picture from this url
 		$('.team-logo').attr("src", "http://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/" + teamToLower + ".png?w=150&h=150&transparent=true" );		
 	} 
 	else{
@@ -264,6 +272,58 @@ function setHeaderStyles(teams){
 			$('.team').text(teams[t].full).css("color", teams[t].txtcolor);
 			$('header').css("background-color", teams[t].bgcolor);
 		}
-	}
+	}	
+}
+
+function showPlayerStats(player){
+	// clone our result template code
+	var result = $('.statsTemp .playerInfo').clone();
 	
+	// Set the player's name
+	var playerName = result.find('.name');
+	playerName.text(player[0].firstName + ' ' + player[0].lastName);
+
+	// Set the player's position
+	var playerPosition = result.find('.position');
+	playerPosition.text(player[0].position);
+
+	// set the player's opponent
+	var opponent = result.find('.opponent');
+	opponent.text(player[0].opponentTeamAbbr);
+
+	// set the player's stat line
+	var stats = result.find('.stats');
+	stats.text(player[0].statsLine);
+
+	// set the player's points
+	var playerPoints = result.find('.points');
+	playerPoints.text(player[0].pts);
+
+	// set the player's projected points
+	var projected = result.find('.projected');
+	projected.text(player[0].projectedPts);
+
+	return result;
+}
+
+function getPlayerStats(team, week){
+	$.ajax({
+		url: "http://api.fantasy.nfl.com/v1/players/scoringleaders?count=1&format=json&week=" + week + "&teamAbbr=" + team,
+		type: "GET",
+	})
+	.done(function(data){
+		//for(t = 0; t < 6; t++){
+			//var playerStats = showPlayerStats(data.positions[t]);
+			//$('.results').append(playerStats);
+		//}
+		$.each(data.positions, function(i, item) {
+			var playerStats = showPlayerStats(item);
+			// display player stats
+			$('.results').append(playerStats);
+		});
+	})
+	.fail(function(jqXHR, error, errorThrown){
+		var errorElem = showError(error);
+		$('.error').append(errorElem);
+	});
 }
