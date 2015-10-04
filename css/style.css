@@ -79,3 +79,29 @@ body {
 	display: none;
 }
 
+.playerInfo {
+	margin: 1em;
+	text-align: left;
+	float: left;
+	clear: right;
+}
+
+.results {
+	width: 40%;
+	margin: 0 auto;
+}
+
+.playerPic {
+	padding: 0;
+	width: 200px;
+	height: 200px;
+	background-repeat: no-repeat;
+	border: solid 3px;
+	margin: 1em;
+	float: left;
+}
+
+.player {
+	clear: both;
+	margin: 2em auto;
+}

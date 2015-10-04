@@ -283,6 +283,10 @@ function showPlayerStats(player){
 	var playerName = result.find('.name');
 	playerName.text(player[0].firstName + ' ' + player[0].lastName);
 
+	// Set the player's team
+	var playerTeam = result.find('.playerTeam');
+	playerTeam.text(player[0].teamAbbr);
+	
 	// Set the player's position
 	var playerPosition = result.find('.position');
 	playerPosition.text(player[0].position);
@@ -306,20 +310,38 @@ function showPlayerStats(player){
 	return result;
 }
 
+function showPlayerPicture(player){
+	// clone template code for player pic
+	var pic = $('.statsTemp .playerPic').clone();
+	pic.css("background-image", "url(http://s.nflcdn.com/static/content/public/static/img/fantasy/player-card/headshot-logo-bg/" + player[0].teamAbbr + ".png");
+	// set player's photo
+	var photo = pic.find('#picture');
+	if(player[0].esbid){
+		photo.attr("src", "http://s.nflcdn.com/static/content/public/image/fantasy/transparent/200x200/" + player[0].esbid + ".png");
+	}
+	else{
+		photo.attr("src", "http://s.nflcdn.com/static/content/public/image/fantasy/transparent/200x200/" + player[0].teamAbbr + ".png");
+	}
+	return pic;
+}
+
 function getPlayerStats(team, week){
 	$.ajax({
 		url: "http://api.fantasy.nfl.com/v1/players/scoringleaders?count=1&format=json&week=" + week + "&teamAbbr=" + team,
 		type: "GET",
 	})
 	.done(function(data){
-		//for(t = 0; t < 6; t++){
-			//var playerStats = showPlayerStats(data.positions[t]);
-			//$('.results').append(playerStats);
-		//}
 		$.each(data.positions, function(i, item) {
+			var playerPic = showPlayerPicture(item);
 			var playerStats = showPlayerStats(item);
+			$('.results').append('<div class="player" id="' + i + '"></div>');
 			// display player stats
-			$('.results').append(playerStats);
+			var newdiv = document.getElementById(i);
+			$(newdiv).append(playerPic);
+			$(newdiv).append(playerStats);
+			if(i === 'DEF'){
+				return false;
+			}
 		});
 	})
 	.fail(function(jqXHR, error, errorThrown){
