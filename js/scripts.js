@@ -246,11 +246,13 @@ $( document ).ready(function() {
     var team = '';
     var week = '';
     getPlayerStats(team, week);
+    // get current week number
+    var currentWeek = $('#weekNumber').text();
 
     // handle team and week form submit 
     $('.options').submit(function(event){
     	event.preventDefault();
-    	$('.results').html('');
+     	$('.results').html('');
     	// get value of team selector
     	var team = $('#teams').find('option:selected').val();
     	if(team === "NFL"){
@@ -258,7 +260,11 @@ $( document ).ready(function() {
     	}
 		var teamToLower = team.toLowerCase();
 		// get value of week selector
+
 		var week = $('#week').find('option:selected').val();
+    	if(week > currentWeek){
+    		week += "&sort=projectedPts";
+    	}
     	setNewHeaderStyles(teams, team, teamToLower);
     	getPlayerStats(team, week);
     });
@@ -305,11 +311,19 @@ function showPlayerStats(player){
 
 	// set the player's stat line
 	var stats = result.find('.stats');
-	stats.text(player[0].statsLine);
+	var statsLine = player[0].statsLine;
+	if(statsLine === ""){
+		statsLine = '---';
+	}
+	stats.text(statsLine);
 
 	// set the player's points
 	var playerPoints = result.find('.points');
-	playerPoints.text(player[0].pts);
+	var ptsAchieved = player[0].pts;
+	if(ptsAchieved == false){
+		ptsAchieved = "---";
+	}
+	playerPoints.text(ptsAchieved);
 
 	// set the player's projected points
 	var projected = result.find('.projected');
