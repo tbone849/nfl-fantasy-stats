@@ -327,7 +327,11 @@ function showPlayerStats(player){
 
 	// set the player's projected points
 	var projected = result.find('.projected');
-	projected.text(player[0].projectedPts);
+	var projectedPoints = player[0].projectedPts;
+	if(projectedPoints == false){
+		projectedPoints = "---";
+	}
+	projected.text(projectedPoints);
 
 	return result;
 }
