@@ -242,6 +242,11 @@ $( document ).ready(function() {
     	$('#week').append('<option value="' + x + '">' + x + '</option>');
     }
 
+    // get current nfl leader stats for this week
+    var team = '';
+    var week = '';
+    getPlayerStats(team, week);
+
     // handle team and week form submit 
     $('.options').submit(function(event){
     	event.preventDefault();
@@ -346,6 +351,12 @@ function getPlayerStats(team, week){
 	})
 	.fail(function(jqXHR, error, errorThrown){
 		var errorElem = showError(error);
-		$('.error').append(errorElem);
+		$('.results').prepend(errorElem);
 	});
 }
+
+var showError = function(error){
+	var errorElem = $('.playerInfo .error').clone();
+	var errorText = '<p>' + error + '</p>';
+	errorElem.append(errorText);
+};
