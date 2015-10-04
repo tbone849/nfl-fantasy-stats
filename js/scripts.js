@@ -253,6 +253,9 @@ $( document ).ready(function() {
     	$('.results').html('');
     	// get value of team selector
     	var team = $('#teams').find('option:selected').val();
+    	if(team === "NFL"){
+    		team = '';
+    	}
 		var teamToLower = team.toLowerCase();
 		// get value of week selector
 		var week = $('#week').find('option:selected').val();
@@ -330,12 +333,17 @@ function showPlayerPicture(player){
 	return pic;
 }
 
+function showWeek(data){
+	$('#weekNumber').text(data.week);
+}
+
 function getPlayerStats(team, week){
 	$.ajax({
 		url: "http://api.fantasy.nfl.com/v1/players/scoringleaders?count=1&format=json&week=" + week + "&teamAbbr=" + team,
 		type: "GET",
 	})
 	.done(function(data){
+		showWeek(data);
 		$.each(data.positions, function(i, item) {
 			var playerPic = showPlayerPicture(item);
 			var playerStats = showPlayerStats(item);
