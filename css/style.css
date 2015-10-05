@@ -162,6 +162,10 @@ body {
      	height: 8em;
     }
 
+    .playerPic {
+    	background-size: cover;
+    }
+
 	.player {
 		height: 13em;
 	} 
