@@ -289,28 +289,35 @@ function setNewHeaderStyles(teams){
 	}	
 }
 
-function showPlayerStats(player){
-	// clone our result template code
-	var result = $('.statsTemp .playerInfo').clone();
+function showPlayerInfo(player){
+	// clone our playerInfo template
+	var info = $('.statsTemp .playerInfo').clone();
 	
 	// Set the player's name
-	var playerName = result.find('.name');
+	var playerName = info.find('.name');
 	playerName.text(player[0].firstName + ' ' + player[0].lastName);
 
 	// Set the player's team
-	var playerTeam = result.find('.playerTeam');
+	var playerTeam = info.find('.playerTeam');
 	playerTeam.text(player[0].teamAbbr);
 	
 	// Set the player's position
-	var playerPosition = result.find('.position');
+	var playerPosition = info.find('.position');
 	playerPosition.text(player[0].position);
 
 	// set the player's opponent
-	var opponent = result.find('.opponent');
+	var opponent = info.find('.opponent');
 	opponent.text(player[0].opponentTeamAbbr);
 
+	return info;
+}
+
+function showGameStats(player){
+	// clone our template code for playerStats
+	var gameStats = $('.statsTemp .playerStats').clone();
+
 	// set the player's stat line
-	var stats = result.find('.stats');
+	var stats = gameStats.find('.stats');
 	var statsLine = player[0].statsLine;
 	if(statsLine === ""){
 		statsLine = '---';
@@ -318,7 +325,7 @@ function showPlayerStats(player){
 	stats.text(statsLine);
 
 	// set the player's points
-	var playerPoints = result.find('.points');
+	var playerPoints = gameStats.find('.points');
 	var ptsAchieved = player[0].pts;
 	if(ptsAchieved == false){
 		ptsAchieved = "---";
@@ -326,14 +333,14 @@ function showPlayerStats(player){
 	playerPoints.text(ptsAchieved);
 
 	// set the player's projected points
-	var projected = result.find('.projected');
+	var projected = gameStats.find('.projected');
 	var projectedPoints = player[0].projectedPts;
 	if(projectedPoints == false){
 		projectedPoints = "---";
 	}
 	projected.text(projectedPoints);
 
-	return result;
+	return gameStats;
 }
 
 function showPlayerPicture(player){
@@ -364,12 +371,15 @@ function getPlayerStats(team, week){
 		showWeek(data);
 		$.each(data.positions, function(i, item) {
 			var playerPic = showPlayerPicture(item);
-			var playerStats = showPlayerStats(item);
-			$('.results').append('<div class="player" id="' + i + '"></div>');
+			var playerInfo = showPlayerInfo(item);
+			var playerStats = showGameStats(item);
+			$('.results').append('<div class="card" id="' + i + '"></div>');
 			// display player stats
 			var newdiv = document.getElementById(i);
 			$(newdiv).append(playerPic);
+			$(newdiv).append(playerInfo);
 			$(newdiv).append(playerStats);
+
 			if(i === 'DEF'){
 				return false;
 			}
