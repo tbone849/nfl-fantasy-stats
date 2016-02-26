@@ -242,31 +242,53 @@ $( document ).ready(function() {
     	$('#week').append('<option value="' + x + '">' + x + '</option>');
     }
 
+    // populate year selector
+    var today = new Date();
+    var currentYear = today.getFullYear();
+    for(x = 0; x < 10; x++){
+    	$('#year').append('<option value="' + (currentYear - x) + '">' + (currentYear -x) + '</option');
+    }
+
     // get current nfl leader stats for this week
     var team = '';
     var week = '';
-    getPlayerStats(team, week);
-    // get current week number
-    var currentWeek = $('#weekNumber').text();
+    var year = '';
+    var currentWeek;
+    var currentLeagueYear;
+    getCurrentWeekAndYear()
+    	.done(function(data){
+			currentWeek = data.week;
+			currentLeagueYear = data.season;
+		})
+		.fail(function(jqXHR, error, errorThrom){
+			currentWeek = 1;
+			currentLeagueYear = currentYear;
+		});
+    getPlayerStats(team, week, year);
+
+    
 
     // handle team and week form submit 
     $('.options').submit(function(event){
     	event.preventDefault();
      	$('.results').html('');
     	// get value of team selector
-    	var team = $('#teams').find('option:selected').val();
+    	team = $('#teams').find('option:selected').val();
     	if(team === "NFL"){
     		team = '';
     	}
 		var teamToLower = team.toLowerCase();
 		// get value of week selector
 
-		var week = $('#week').find('option:selected').val();
-    	if(week > currentWeek){
+		week = $('#week').find('option:selected').val();
+		year = $('#year').find('option:selected').val();
+    	if((week > currentWeek && year >= currentLeagueYear) || year > currentLeagueYear){
     		week += "&sort=projectedPts";
+    		console.log('if passed');
     	}
+
     	setNewHeaderStyles(teams, team, teamToLower);
-    	getPlayerStats(team, week);
+    	getPlayerStats(team, week, year);
     });
 });
 
@@ -362,13 +384,25 @@ function showWeek(data){
 	$('#weekNumber').text(data.week);
 }
 
-function getPlayerStats(team, week){
+function showYear(data){
+	$('#yearNumber').text(data.season);
+}
+
+function getCurrentWeekAndYear(){
+	return $.ajax({
+		url: "http://api.fantasy.nfl.com/v1/players/scoringleaders?format=json",
+		type: "GET",
+	});
+}
+
+function getPlayerStats(team, week, year){
 	$.ajax({
-		url: "http://api.fantasy.nfl.com/v1/players/scoringleaders?count=1&format=json&week=" + week + "&teamAbbr=" + team,
+		url: "http://api.fantasy.nfl.com/v1/players/scoringleaders?count=1&format=json&week=" + week + "&teamAbbr=" + team + '&season=' + year,
 		type: "GET",
 	})
 	.done(function(data){
 		showWeek(data);
+		showYear(data);
 		$.each(data.positions, function(i, item) {
 			var playerPic = showPlayerPicture(item);
 			var playerInfo = showPlayerInfo(item);
